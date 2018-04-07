@@ -151,20 +151,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="header.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="text_clipboard.h" />
+    <ClInclude Include="source\header.h" />
+    <ClInclude Include="source\Resource.h" />
+    <ClInclude Include="source\targetver.h" />
+    <ClInclude Include="source\text_clipboard.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="text_clipboard.cpp" />
+    <ClCompile Include="source\text_clipboard.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="text_clipboard.rc" />
+    <ResourceCompile Include="source\text_clipboard.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico" />
-    <Image Include="text_clipboard.ico" />
+    <Image Include="source\small.ico" />
+    <Image Include="source\text_clipboard.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

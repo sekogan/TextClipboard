@@ -15,34 +15,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header.h">
+    <ClInclude Include="source\header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="source\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
+    <ClInclude Include="source\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="text_clipboard.h">
+    <ClInclude Include="source\text_clipboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="text_clipboard.cpp">
+    <ClCompile Include="source\text_clipboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="text_clipboard.rc">
+    <ResourceCompile Include="source\text_clipboard.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico">
+    <Image Include="source\small.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="text_clipboard.ico">
+    <Image Include="source\text_clipboard.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
