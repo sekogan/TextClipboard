@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\header.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Resource.h">
+    <ClInclude Include="source\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\text_clipboard.h">
+    <ClInclude Include="source\clipboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\winsdk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

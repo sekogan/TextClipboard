@@ -151,10 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="source\header.h" />
-    <ClInclude Include="source\Resource.h" />
+    <ClInclude Include="source\clipboard.h" />
+    <ClInclude Include="source\winsdk.h" />
+    <ClInclude Include="source\resource.h" />
     <ClInclude Include="source\targetver.h" />
-    <ClInclude Include="source\text_clipboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\text_clipboard.cpp" />
