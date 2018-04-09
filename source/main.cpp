@@ -85,20 +85,20 @@ ATOM RegisterMainWindowClass(LPCWSTR windowClassName, HINSTANCE instance)
 {
 	WNDCLASSEXW options;
 
-    options.cbSize         = sizeof(options);
-    options.style          = CS_HREDRAW | CS_VREDRAW;
-    options.lpfnWndProc    = WindowProc;
-    options.cbClsExtra     = 0;
-    options.cbWndExtra     = 0;
-    options.hInstance      = instance;
-    options.hIcon          = LoadIcon(instance, MAKEINTRESOURCE(IDI_MAIN));
+	options.cbSize         = sizeof(options);
+	options.style          = CS_HREDRAW | CS_VREDRAW;
+	options.lpfnWndProc    = WindowProc;
+	options.cbClsExtra     = 0;
+	options.cbWndExtra     = 0;
+	options.hInstance      = instance;
+	options.hIcon          = LoadIcon(instance, MAKEINTRESOURCE(IDI_MAIN));
 	options.hIconSm        = options.hIcon;
 	options.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    options.hbrBackground  = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
-    options.lpszClassName  = windowClassName;
+	options.hbrBackground  = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+	options.lpszClassName  = windowClassName;
 	options.lpszMenuName   = NULL;
 
-    return RegisterClassExW(&options);
+	return RegisterClassExW(&options);
 }
 
 bool InitInstance(HINSTANCE instance)
