@@ -21,7 +21,7 @@ msbuild %PROJECT%.sln /p:Configuration=Release;Platform=x86;ProjectVersion=%VERS
 if errorlevel 1 exit /b 1
 msbuild %PROJECT%.sln /p:Configuration=Release;Platform=x64;ProjectVersion=%VERSION%
 if errorlevel 1 exit /b 1
-7z a %RELEASE_DIR%\%PROJECT%_32_%VERSION%.zip .\build\Release_Win32\text_clipboard.exe
+7z a %RELEASE_DIR%\%PROJECT%_32_%VERSION%.zip .\build\Release_Win32\text_clipboard.exe .\scripts\*
 7z a %RELEASE_DIR%\%PROJECT%_32_%VERSION%_pdb.zip .\build\Release_Win32\text_clipboard.pdb
-7z a %RELEASE_DIR%\%PROJECT%_64_%VERSION%.zip .\build\Release_x64\text_clipboard.exe
+7z a %RELEASE_DIR%\%PROJECT%_64_%VERSION%.zip .\build\Release_x64\text_clipboard.exe .\scripts\*
 7z a %RELEASE_DIR%\%PROJECT%_64_%VERSION%_pdb.zip .\build\Release_x64\text_clipboard.pdb
