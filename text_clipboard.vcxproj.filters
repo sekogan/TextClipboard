@@ -30,6 +30,9 @@
     <ClInclude Include="source\crt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\global_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\text_clipboard.cpp">
@@ -42,10 +45,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="source\small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="source\text_clipboard.ico">
+    <Image Include="source\res\main.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

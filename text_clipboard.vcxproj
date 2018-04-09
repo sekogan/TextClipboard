@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="source\clipboard.h" />
     <ClInclude Include="source\crt.h" />
+    <ClInclude Include="source\global_buffer.h" />
     <ClInclude Include="source\winsdk.h" />
     <ClInclude Include="source\resource.h" />
     <ClInclude Include="source\targetver.h" />
@@ -196,8 +197,7 @@
     <ResourceCompile Include="source\text_clipboard.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="source\small.ico" />
-    <Image Include="source\text_clipboard.ico" />
+    <Image Include="source\res\main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
