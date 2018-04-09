@@ -4,12 +4,24 @@ Clears the formatting of any text that is currently on the clipboard. Works sile
 
 Features:
 
-- super simple (no keyboard shortcuts, no UI, no tray icons);
+- super simple (no keyboard shortcuts, no UI, no tray icon);
 - super lightweight (one executable, ~7.5KB);
 - no dependencies;
 - portable;
 - secure: anyone can verify the code;
 - runs on Windows 10.
+
+## Installation
+
+Unpack the 64-bit or 32-bit archive to a folder and run the following command. The command doesn't need user rights elevation (UAC).
+
+```
+install.cmd
+```
+
+## Uninstallation
+
+Run `uninstall.cmd` from the installation folder. Again, elevation is not required.
 
 ---
 Copyright &copy; 2018 Sergei Kogan.
