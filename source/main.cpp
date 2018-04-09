@@ -76,7 +76,7 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
 		PostQuitMessage(0);
 		break;
 	default:
-		return DefWindowProc(g_window, message, wParam, lParam);
+		return DefWindowProc(window, message, wParam, lParam);
 	}
 	return 0;
 }
@@ -109,7 +109,7 @@ bool InitInstance(HINSTANCE instance)
 	if (0 == RegisterMainWindowClass(WindowClassName, instance))
 		return false;
 
-	g_window = CreateWindowW(WindowClassName, L"aaa", WS_OVERLAPPEDWINDOW,
+	g_window = CreateWindowW(WindowClassName, NULL, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, instance, NULL);
 
 	if (!g_window)
