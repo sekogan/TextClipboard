@@ -4,33 +4,62 @@
 #include "res/resource.h"
 
 const LPCWSTR WindowClassName = L"TextClipboardClass";
+const UINT RetryIntervalMs = 10;
+const UINT MaxNumberOfRetries = 2*60*1000 / RetryIntervalMs;
 
-UINT_PTR g_timerId;
+UINT_PTR g_retryTimerId;
+UINT g_numberOfRetries;
+HWND g_window;
 
-void ClearTextFormattingInClipboard(HWND window)
+bool TryToClearTextFormattingInClipboard()
 {
 	const auto clipboardOwnerWindow = ::GetClipboardOwner();
-	if (clipboardOwnerWindow == window)
-		return;
+	if (clipboardOwnerWindow == g_window)
+		return true; // Done already
 
-	Clipboard clipboard(window);
+	Clipboard clipboard(g_window);
 	if (!clipboard.IsOpened())
-	{
-		if (g_timerId == 0)
-			g_timerId = ::SetTimer(window, 1, 10, NULL);
-		return;
-	}
-	if (g_timerId != 0)
-	{
-		::KillTimer(window, g_timerId);
-		g_timerId = 0;
-	}
+		return false;
 
 	GlobalBuffer text;
 	if (!clipboard.GetAsUnicodeText(text))
-		return;
+		return true; // No text in the clipboard
 
 	clipboard.ReplaceWithUnicodeText(text);
+	return true;
+}
+
+void StartRetries()
+{
+	g_retryTimerId = ::SetTimer(g_window, 1, RetryIntervalMs, NULL);
+}
+
+void StopRetries()
+{
+	g_numberOfRetries = 0;
+	if (g_retryTimerId != 0)
+	{
+		::KillTimer(g_window, g_retryTimerId);
+		g_retryTimerId = 0;
+	}
+}
+
+void ClearTextFormattingInClipboard()
+{
+	StopRetries();
+	if (!TryToClearTextFormattingInClipboard())
+		StartRetries();
+}
+
+void RetryClearTextFormattingInClipboard()
+{
+	if (++g_numberOfRetries > MaxNumberOfRetries)
+	{
+		StopRetries();
+		return;
+	}
+	if (TryToClearTextFormattingInClipboard())
+		StopRetries();
 }
 
 LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
@@ -38,16 +67,16 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message)
 	{
 	case WM_CLIPBOARDUPDATE:
-		ClearTextFormattingInClipboard(window);
+		ClearTextFormattingInClipboard();
 		break;
 	case WM_TIMER:
-		ClearTextFormattingInClipboard(window);
+		RetryClearTextFormattingInClipboard();
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
 	default:
-		return DefWindowProc(window, message, wParam, lParam);
+		return DefWindowProc(g_window, message, wParam, lParam);
 	}
 	return 0;
 }
@@ -80,17 +109,19 @@ bool InitInstance(HINSTANCE instance)
 	if (0 == RegisterMainWindowClass(WindowClassName, instance))
 		return false;
 
-	const HWND window = CreateWindowW(WindowClassName, NULL, WS_OVERLAPPEDWINDOW,
+	g_window = CreateWindowW(WindowClassName, L"aaa", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, instance, NULL);
 
-	if (!window)
+	if (!g_window)
 		return false;
 
-	if (!::AddClipboardFormatListener(window))
+	if (!::AddClipboardFormatListener(g_window))
 		return false;
 
-	ShowWindow(window, SW_SHOWNORMAL);
-	UpdateWindow(window);
+	ClearTextFormattingInClipboard();
+
+	ShowWindow(g_window, SW_SHOWNORMAL);
+	UpdateWindow(g_window);
 
 	return true;
 }
