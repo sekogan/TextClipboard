@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\clipboard.h" />
+    <ClInclude Include="source\crt.h" />
     <ClInclude Include="source\winsdk.h" />
     <ClInclude Include="source\resource.h" />
     <ClInclude Include="source\targetver.h" />

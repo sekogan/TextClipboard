@@ -1,6 +1,7 @@
 #pragma once
 
 #include "winsdk.h"
+#include "crt.h"
 
 class GlobalBuffer final
 {
@@ -76,24 +77,6 @@ private:
 	HANDLE handle_ = nullptr;
 };
 
-template<typename Char>
-unsigned GetStringLength(const Char* string) noexcept
-{
-	const Char* scan;
-	for (scan = string; *scan; ++scan) {}
-	return static_cast<unsigned>(scan - string);
-}
-
-template<typename From, typename To, typename Size>
-void CopyData(To* dest, const From* source, Size size) noexcept
-{
-	const auto from = reinterpret_cast<const BYTE*>(source);
-	const auto to = reinterpret_cast<BYTE*>(dest);
-
-	for (Size i = 0; i < size; ++i)
-		to[i] = from[i];
-}
-
 class Clipboard final
 {
 public:
@@ -116,7 +99,7 @@ public:
 			return false;
 
 		const auto source = reinterpret_cast<LPCWSTR>(sourceLock.Data());
-		const auto length = GetStringLength(reinterpret_cast<LPCWSTR>(sourceLock.Data()));
+		const auto length = wcslen(reinterpret_cast<LPCWSTR>(sourceLock.Data()));//   GetStringLength(reinterpret_cast<LPCWSTR>(sourceLock.Data()));
 		const auto sizeInBytes = (length + 1) * sizeof(*source);
 
 		if (!buffer.Allocate(sizeInBytes))
@@ -126,7 +109,8 @@ public:
 		if (!destLock.IsValid())
 			return false;
 
-		CopyData(destLock.Data(), source, sizeInBytes);
+		memcpy(destLock.Data(), source, sizeInBytes);
+		//CopyData(destLock.Data(), source, sizeInBytes);
 
 		return true;
 	}

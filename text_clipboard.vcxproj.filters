@@ -27,6 +27,9 @@
     <ClInclude Include="source\winsdk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\crt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\text_clipboard.cpp">
