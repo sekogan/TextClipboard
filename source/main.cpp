@@ -120,9 +120,6 @@ bool InitInstance(HINSTANCE instance)
 
 	ClearTextFormattingInClipboard();
 
-	ShowWindow(g_window, SW_SHOWNORMAL);
-	UpdateWindow(g_window);
-
 	return true;
 }
 
