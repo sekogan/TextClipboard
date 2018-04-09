@@ -11,13 +11,22 @@ public:
 		: opened_(!!::OpenClipboard(window))
 	{}
 
-	bool IsValid() const
+	~Clipboard()
+	{
+		if (opened_)
+			::CloseClipboard();
+	}
+
+	bool IsOpened() const
 	{
 		return opened_;
 	}
 
-	bool GetText(GlobalBuffer& buffer) const
+	bool GetAsUnicodeText(GlobalBuffer& buffer) const
 	{
+		if (!opened_)
+			return false;
+
 		if (!::IsClipboardFormatAvailable(CF_UNICODETEXT))
 			return false;
 
@@ -41,10 +50,21 @@ public:
 		return true;
 	}
 
-	~Clipboard()
+	bool ReplaceWithUnicodeText(GlobalBuffer& buffer)
 	{
-		if (opened_)
-			::CloseClipboard();
+		if (!opened_)
+			return false;
+
+		if (!::EmptyClipboard())
+			return false;
+
+		const HANDLE data = buffer.Release();
+		if (NULL == ::SetClipboardData(CF_UNICODETEXT, data))
+		{
+			buffer.Attach(data);
+			return false;
+		}
+		return true;
 	}
 
 private:

@@ -68,8 +68,8 @@ public:
 		}
 
 	private:
-		HANDLE handle_;
-		LPVOID data_;
+		const HANDLE handle_;
+		const LPVOID data_;
 	};
 
 private:

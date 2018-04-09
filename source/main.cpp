@@ -14,7 +14,7 @@ void ClearTextFormattingInClipboard(HWND window)
 		return;
 
 	Clipboard clipboard(window);
-	if (!clipboard.IsValid())
+	if (!clipboard.IsOpened())
 	{
 		if (g_timerId == 0)
 			g_timerId = ::SetTimer(window, 1, 10, NULL);
@@ -26,16 +26,11 @@ void ClearTextFormattingInClipboard(HWND window)
 		g_timerId = 0;
 	}
 
-	GlobalBuffer buffer;
-	if (!clipboard.GetText(buffer))
+	GlobalBuffer text;
+	if (!clipboard.GetAsUnicodeText(text))
 		return;
 
-	if (::EmptyClipboard())
-	{
-		const HANDLE data = buffer.Release();
-		if (NULL == ::SetClipboardData(CF_UNICODETEXT, data))
-			buffer.Attach(data);
-	}
+	clipboard.ReplaceWithUnicodeText(text);
 }
 
 LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
