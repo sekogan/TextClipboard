@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by text_clipboard.rc
+// Used by main.rc
 //
 #define IDI_MAIN                        101
 
