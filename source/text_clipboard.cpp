@@ -3,7 +3,7 @@
 #include "clipboard.h"
 #include "resource.h"
 
-const LPCWSTR WindowClass = L"TextClipboardClass";
+const LPCWSTR WindowClassName = L"TextClipboardClass";
 
 UINT_PTR g_timerId;
 
@@ -57,7 +57,7 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
 	return 0;
 }
 
-ATOM RegisterMainWindowClass(HINSTANCE instance)
+ATOM RegisterMainWindowClass(LPCWSTR windowClassName, HINSTANCE instance)
 {
 	WNDCLASSEXW options;
 
@@ -71,7 +71,7 @@ ATOM RegisterMainWindowClass(HINSTANCE instance)
 	options.hIconSm        = options.hIcon;
 	options.hCursor        = LoadCursor(NULL, IDC_ARROW);
     options.hbrBackground  = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
-    options.lpszClassName  = WindowClass;
+    options.lpszClassName  = windowClassName;
 	options.lpszMenuName   = NULL;
 
     return RegisterClassExW(&options);
@@ -79,10 +79,13 @@ ATOM RegisterMainWindowClass(HINSTANCE instance)
 
 bool InitInstance(HINSTANCE instance)
 {
-	if (0 == RegisterMainWindowClass(instance))
+	if (NULL != ::FindWindow(WindowClassName, NULL))
 		return false;
 
-	const HWND window = CreateWindowW(WindowClass, NULL, WS_OVERLAPPEDWINDOW,
+	if (0 == RegisterMainWindowClass(WindowClassName, instance))
+		return false;
+
+	const HWND window = CreateWindowW(WindowClassName, NULL, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, instance, NULL);
 
 	if (!window)
