@@ -2,7 +2,7 @@
 
 #include "winsdk.h"
 #include "global_buffer.h"
-#include "crt.h"
+#include "micro_crt.h"
 
 class Clipboard final
 {

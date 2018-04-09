@@ -14,9 +14,6 @@
     <ClInclude Include="source\clipboard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\crt.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\global_buffer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -27,6 +24,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="source\winsdk.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\micro_crt.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
