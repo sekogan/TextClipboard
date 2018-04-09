@@ -18,7 +18,7 @@
     <ClInclude Include="source\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\resource.h">
+    <ClInclude Include="source\res\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\clipboard.h">
@@ -35,12 +35,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\text_clipboard.cpp">
+    <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="source\text_clipboard.rc">
+    <ResourceCompile Include="source\res\main.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

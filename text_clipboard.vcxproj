@@ -187,14 +187,14 @@
     <ClInclude Include="source\crt.h" />
     <ClInclude Include="source\global_buffer.h" />
     <ClInclude Include="source\winsdk.h" />
-    <ClInclude Include="source\resource.h" />
+    <ClInclude Include="source\res\resource.h" />
     <ClInclude Include="source\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\text_clipboard.cpp" />
+    <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="source\text_clipboard.rc" />
+    <ResourceCompile Include="source\res\main.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="source\res\main.ico" />

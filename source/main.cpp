@@ -1,7 +1,7 @@
 #include "winsdk.h"
 
 #include "clipboard.h"
-#include "resource.h"
+#include "res/resource.h"
 
 const LPCWSTR WindowClassName = L"TextClipboardClass";
 
