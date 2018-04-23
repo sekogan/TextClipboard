@@ -5,7 +5,7 @@ Clears the formatting of any text that is currently on the clipboard. Works sile
 Features:
 
 - super simple (no keyboard shortcuts, no UI, no tray icon);
-- super lightweight (one executable, ~7.5KB);
+- super lightweight (one executable, ~9KB);
 - no dependencies;
 - portable;
 - secure: anyone can verify the code;
