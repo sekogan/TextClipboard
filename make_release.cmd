@@ -21,6 +21,14 @@ if errorlevel 1 exit /b 1
 msbuild %PROJECT%.sln /p:Configuration=Release;Platform=x64;ProjectVersion=%VERSION%
 if errorlevel 1 exit /b 1
 
+powershell.exe -file "%~dp0github_sourceindexer.ps1" ^
+	-symbolsFolder .\build ^
+	-userId sekogan ^
+	-repository TextClipboard ^
+	-branch v%VERSION% ^
+	-ignoreUnknown ^
+	-verbose
+
 mkdir %RELEASE_DIR%
 7z a %RELEASE_DIR%\%PROJECT%_32_%VERSION%.zip .\build\Release_Win32\text_clipboard.exe .\scripts\*
 7z a %RELEASE_DIR%\%PROJECT%_32_%VERSION%_pdb.zip .\build\Release_Win32\text_clipboard.pdb
