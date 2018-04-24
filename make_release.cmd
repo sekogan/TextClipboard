@@ -1,6 +1,6 @@
 @echo off
 set PROJECT=text_clipboard
-set VERSION=1.0.2
+set VERSION=1.0.3
 
 set RELEASE_DIR=.\build\%PROJECT%_%VERSION%
 
