@@ -29,9 +29,15 @@
     <ClInclude Include="source\micro_crt.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\crc32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\crc32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

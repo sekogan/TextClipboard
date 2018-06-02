@@ -206,6 +206,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="source\clipboard.h" />
+    <ClInclude Include="source\crc32.h" />
     <ClInclude Include="source\micro_crt.h" />
     <ClInclude Include="source\global_buffer.h" />
     <ClInclude Include="source\winsdk.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="source\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\crc32.cpp" />
     <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>

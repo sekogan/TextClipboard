@@ -30,22 +30,26 @@ public:
 		if (!::IsClipboardFormatAvailable(CF_UNICODETEXT))
 			return false;
 
-		GlobalBuffer::Lock sourceLock(::GetClipboardData(CF_UNICODETEXT));
-		if (!sourceLock.IsValid())
+		const HANDLE unicodeTextHandle = ::GetClipboardData(CF_UNICODETEXT);
+		if (unicodeTextHandle == NULL)
 			return false;
 
-		const auto source = reinterpret_cast<LPCWSTR>(sourceLock.Data());
-		const auto length = wcslen(reinterpret_cast<LPCWSTR>(sourceLock.Data()));
-		const auto sizeInBytes = (length + 1) * sizeof(*source);
+		const auto sizeInBytes = ::GlobalSize(unicodeTextHandle);
+		if (sizeInBytes == 0)
+			return false;
 
 		if (!buffer.Allocate(sizeInBytes))
+			return false;
+
+		GlobalBuffer::ReadOnlyLock sourceLock(unicodeTextHandle);
+		if (!sourceLock.IsValid())
 			return false;
 
 		GlobalBuffer::Lock destLock(buffer);
 		if (!destLock.IsValid())
 			return false;
 
-		memcpy(destLock.Data(), source, sizeInBytes);
+		memcpy(destLock.Data(), sourceLock.Data(), sizeInBytes);
 
 		return true;
 	}

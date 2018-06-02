@@ -39,19 +39,20 @@ public:
 		return result;
 	}
 
-	class Lock final
+	template<typename BufferType, typename DataPointerType>
+	class LockImpl final
 	{
 	public:
-		explicit Lock(GlobalBuffer& buffer)
-			: Lock(buffer.handle_)
+		explicit LockImpl(BufferType& buffer)
+			: LockImpl(buffer.handle_)
 		{}
 
-		explicit Lock(HANDLE handle)
+		explicit LockImpl(HANDLE handle)
 			: handle_(handle)
 			, data_(::GlobalLock(handle_))
 		{}
 
-		~Lock()
+		~LockImpl()
 		{
 			if (data_)
 				::GlobalUnlock(handle_);
@@ -62,15 +63,18 @@ public:
 			return data_ != nullptr;
 		}
 
-		LPVOID Data() const
+		DataPointerType Data() const
 		{
 			return data_;
 		}
 
 	private:
 		const HANDLE handle_;
-		const LPVOID data_;
+		const DataPointerType data_;
 	};
+
+	using Lock = LockImpl<GlobalBuffer, LPVOID>;
+	using ReadOnlyLock = LockImpl<const GlobalBuffer, LPCVOID>;
 
 private:
 	HANDLE handle_ = nullptr;

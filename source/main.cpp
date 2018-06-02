@@ -1,6 +1,8 @@
 #include "winsdk.h"
 
 #include "clipboard.h"
+#include "crc32.h"
+#include "micro_crt.h"
 #include "res/resource.h"
 
 const LPCWSTR WindowClassName = L"TextClipboardClass";
@@ -10,6 +12,21 @@ const UINT MaxNumberOfRetries = 2*60*1000 / RetryIntervalMs;
 UINT_PTR g_retryTimerId;
 UINT g_numberOfRetries;
 HWND g_window;
+crc_t g_lastClearedTextCrc;
+DWORD g_lastClearedTextTime;
+
+crc_t CalculateCrc(const GlobalBuffer& text)
+{
+	GlobalBuffer::ReadOnlyLock lock(text);
+	const auto length = wcslen(reinterpret_cast<LPCWSTR>(lock.Data()));
+	const auto sizeInBytes = (length + 1) * sizeof(WCHAR);
+
+	crc_t crc = crc_init();
+	crc = crc_update(crc, lock.Data(), sizeInBytes);
+	crc = crc_finalize(crc);
+
+	return crc;
+}
 
 bool TryToClearTextFormattingInClipboard()
 {
@@ -24,6 +41,15 @@ bool TryToClearTextFormattingInClipboard()
 	GlobalBuffer text;
 	if (!clipboard.GetAsUnicodeText(text))
 		return true; // No text in the clipboard
+
+	const crc_t crc = CalculateCrc(text);
+	const DWORD now = ::GetTickCount();
+	const bool isDoubleCopy = now - g_lastClearedTextTime < 1000 &&
+		crc == g_lastClearedTextCrc;
+	if (isDoubleCopy)
+		return true; // Do not clear formatting on second copy
+	g_lastClearedTextCrc = crc;
+	g_lastClearedTextTime = now;
 
 	clipboard.ReplaceWithUnicodeText(text);
 	return true;
