@@ -4,8 +4,9 @@ Clears the formatting of any text that is currently on the clipboard. Works sile
 
 Features:
 
+- copy once to copy text only, copy twice to copy text + formatting;
 - super simple (no keyboard shortcuts, no UI, no tray icon);
-- super lightweight (one executable, ~9KB);
+- super lightweight (one executable, ~10KB);
 - no dependencies;
 - portable;
 - secure: anyone can verify the code;
