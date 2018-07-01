@@ -6,11 +6,12 @@
 #include "res/resource.h"
 
 const LPCWSTR WindowClassName = L"TextClipboardClass";
+const UINT InitialDelayMs = 50;
 const UINT RetryIntervalMs = 10;
-const UINT MaxNumberOfRetries = 2*60*1000 / RetryIntervalMs;
+const UINT MaxNumberOfAttempts = (2*60*1000 - InitialDelayMs) / RetryIntervalMs;
 
-UINT_PTR g_retryTimerId;
-UINT g_numberOfRetries;
+UINT_PTR g_timerId;
+UINT g_numberOfAttempts;
 HWND g_window;
 crc_t g_lastClearedTextCrc;
 DWORD g_lastClearedTextTime;
@@ -55,37 +56,36 @@ bool TryToClearTextFormattingInClipboard()
 	return true;
 }
 
-void StartRetries()
+void StartTimer(UINT intervalMs)
 {
-	g_retryTimerId = ::SetTimer(g_window, 1, RetryIntervalMs, NULL);
+	g_timerId = ::SetTimer(g_window, 1, intervalMs, NULL);
 }
 
-void StopRetries()
+void StopTimer()
 {
-	g_numberOfRetries = 0;
-	if (g_retryTimerId != 0)
+	if (g_timerId != 0)
 	{
-		::KillTimer(g_window, g_retryTimerId);
-		g_retryTimerId = 0;
+		::KillTimer(g_window, g_timerId);
+		g_timerId = 0;
 	}
 }
 
-void ClearTextFormattingInClipboard()
+void OnClipboardUpdate()
 {
-	StopRetries();
-	if (!TryToClearTextFormattingInClipboard())
-		StartRetries();
+	StopTimer();
+	g_numberOfAttempts = 0;
+	StartTimer(InitialDelayMs); // Do not do the job immediately because it may interfere
+								// with other software also accessing the clipboard
 }
 
-void RetryClearTextFormattingInClipboard()
+void OnTimer()
 {
-	if (++g_numberOfRetries > MaxNumberOfRetries)
-	{
-		StopRetries();
+	StopTimer();
+	if (++g_numberOfAttempts > MaxNumberOfAttempts)
 		return;
-	}
 	if (TryToClearTextFormattingInClipboard())
-		StopRetries();
+		return;
+	StartTimer(RetryIntervalMs);
 }
 
 LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
@@ -93,10 +93,10 @@ LRESULT CALLBACK WindowProc(HWND window, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message)
 	{
 	case WM_CLIPBOARDUPDATE:
-		ClearTextFormattingInClipboard();
+		OnClipboardUpdate();
 		break;
 	case WM_TIMER:
-		RetryClearTextFormattingInClipboard();
+		OnTimer();
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -144,7 +144,7 @@ bool InitInstance(HINSTANCE instance)
 	if (!::AddClipboardFormatListener(g_window))
 		return false;
 
-	ClearTextFormattingInClipboard();
+	OnClipboardUpdate();
 
 	return true;
 }
